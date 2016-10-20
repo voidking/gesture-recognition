@@ -1,0 +1,53 @@
+<!DOCTYPE>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+
+		<title>Development Environment</title>
+
+		<meta name = "description" content = "gest.js is a webcam based gesture recognition library that helps developers make webpages more immersive">
+		<meta name = "author" content = "Hadi Michael (http://hadi.io)">
+
+		<!-- include js -->
+		<script src="gest.js"></script>
+	</head>
+
+	<body>
+		<div id='div' style="margin-left: auto; margin-right:auto">
+			<video id="video" src="ogg-19M.ogg" controls="controls">
+				您的浏览器不支持 video 标签。
+			</video>
+			<p id="prompt"></p>
+		</div>
+		<!-- run gest.js to help me dev -->
+		<script type="text/javascript">
+			document.addEventListener('gest', function(gesture) {
+				console.log(gesture.direction);
+				var prompt = "识别操作为：";
+                if (gesture.up) {
+                    video.volume = video.volume+0.5;
+                    prompt  = prompt + "向上, 执行：音量升高";
+                } else if (gesture.down) {
+                    video.volume = video.volume-0.5;
+                    prompt  = prompt + "向下, 执行：音量降低";
+                } else if (gesture.left) {
+                	video.currentTime = video.currentTime - 3;
+                	prompt  = prompt + "向左, 执行：快退3秒";
+                } else if(gesture.right){
+                	video.currentTime = video.currentTime + 3;
+                	prompt  = prompt + "向右, 执行：快进3秒";
+                }
+                var p = document.createElement("p");
+                p.innerHTML = prompt;
+                document.getElementById('div').appendChild(p);
+            }, false);	
+			gest.start();
+			gest.options.sensitivity(80);
+			//gest.options.debug(true);
+
+			// gest.options.subscribeWithCallback(function(gesture) {
+			// 	console.log(gesture.direction);
+			// });
+		</script>
+	</body>
+</html>
